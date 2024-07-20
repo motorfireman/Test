@@ -28,5 +28,13 @@ RUN git config --global user.name "${GIT_USER_NAME}" && \
 # Switch back to the Jenkins user
 USER jenkins
 
+
+# Configure Git
+ARG GIT_USER_NAME
+ARG GIT_USER_EMAIL
+
+RUN git config --global user.name "${GIT_USER_NAME}" && \
+    git config --global user.email "${GIT_USER_EMAIL}"
+	
 # Run the configuration script when the container starts
 ENTRYPOINT ["/usr/local/bin/configure-docker.sh"]
