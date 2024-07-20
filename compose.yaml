@@ -19,7 +19,6 @@ services:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false  # Disable Jenkins setup wizard
 
 
-
   # SonarQube service configuration
   sonarqube:
     image: sonarqube:lts  # Use the Long Term Support (LTS) version of SonarQube
