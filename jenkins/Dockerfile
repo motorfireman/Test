@@ -1,4 +1,3 @@
-# Jenkins Dockerfile
 FROM jenkins/jenkins:lts
 
 USER root
@@ -16,12 +15,28 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-c
 # Add Jenkins user to Docker group (without creating it)
 RUN usermod -aG docker jenkins
 
-
-# Configure Git
+# Define build arguments
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
 
-RUN git config --global user.name "${GIT_USER_NAME}" && \
-    git config --global user.email "${GIT_USER_EMAIL}"
+# Switch to Jenkins user
+USER jenkins
+
+# Configure Git for Jenkins user
+RUN git config --global user.name "$GIT_USER_NAME" && \
+    git config --global user.email "$GIT_USER_EMAIL"
+
+# Switch back to root to copy entrypoint script
+USER root
+
+RUN git config --global user.name "$GIT_USER_NAME" && \
+    git config --global user.email "$GIT_USER_EMAIL"
+	
+# Copy entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 USER jenkins
