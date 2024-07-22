@@ -6,7 +6,7 @@ pipeline {
         FLASK_APP = 'workspace/flask/app.py'
         PATH = "$VENV_PATH/bin:$CHROME_DRIVER_PATH:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
-        SONARQUBE_TOKEN = 'squ_d5f444cca7aeeb9f3b05ed75a50f8c576a244eea'
+        SONARQUBE_TOKEN = 'squ_6e937d4cb3142f16eea985714f1726b2815d61dd'
         DEPENDENCY_CHECK_HOME = '/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/OWASP_Dependency-Check/dependency-check'
     }
 

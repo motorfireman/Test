@@ -17,7 +17,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock  # Allow Jenkins to communicate with the Docker daemon
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false  # Disable Jenkins setup wizard
-      
 
   # SonarQube service configuration
   sonarqube:
