@@ -1,12 +1,14 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.keys import Keys
 import time
 
 # Path to chromedriver
 chrome_driver_path = '/usr/local/bin/chromedriver'
 
-# Initialize WebDriver
-driver = webdriver.Chrome(executable_path=chrome_driver_path)
+# Initialize WebDriver with Service object
+service = ChromeService(executable_path=chrome_driver_path)
+driver = webdriver.Chrome(service=service)
 
 # Open the Flask app URL
 driver.get("http://127.0.0.1:5000")

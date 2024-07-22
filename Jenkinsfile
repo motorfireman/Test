@@ -64,11 +64,11 @@ pipeline {
                     curl -Lo chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
                     unzip chromedriver.zip -d workspace/
                     chmod +x workspace/chromedriver
+                    export PATH=$PATH:workspace/
                     '''
                 }
             }
         }
-		
         
         stage('UI Testing') {
             steps {
