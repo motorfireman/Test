@@ -6,7 +6,7 @@ pipeline {
         FLASK_APP = 'workspace/flask/app.py'  // Correct path to the Flask app
         PATH = "$VENV_PATH/bin:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
-        SONARQUBE_TOKEN = 'squ_9459d55565ab60da764aa65e0559e5c1000a884c'  // Set your new SonarQube token here
+        SONARQUBE_TOKEN = 'squ_88fff5a9de1c8a7d729fb576f4fb6d6e36e86687'  // Set your new SonarQube token here
         DEPENDENCY_CHECK_HOME = '/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/OWASP_Dependency-Check/dependency-check'
     }
     
@@ -75,6 +75,9 @@ pipeline {
                     sh '''
                     curl -s -X POST -F "password=password" http://127.0.0.1:5000 | grep "Password does not meet the requirements"
                     '''
+                    
+                    // Stop the Flask app
+                    sh 'pkill -f "flask run"'
                 }
             }
         }
@@ -126,6 +129,19 @@ pipeline {
                 }
             }
         }
+		
+		
+		stage('Download Chromedriver') {
+            steps {
+                script {
+                    sh '''
+                    wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+                    unzip chromedriver_linux64.zip -d /usr/local/bin/
+                    chmod +x /usr/local/bin/chromedriver
+                    '''
+                }
+            }
+        }
         
         stage('Selenium Testing') {
             steps {
@@ -134,6 +150,8 @@ pipeline {
                 }
             }
         }
+		
+		
     }
     
     post {
