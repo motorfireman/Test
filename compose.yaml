@@ -46,5 +46,15 @@ services:
       - jenkins
       - sonarqube
 
+
+  # Git server configuration using Gitea
+  git-server:
+    image: gitea/gitea:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./repos:/data
+        
 volumes:
   jenkins_home:  # Define a Docker volume to persist Jenkins data
