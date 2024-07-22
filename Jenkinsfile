@@ -12,7 +12,7 @@ pipeline {
         CHROME_DRIVER_PATH = '/usr/local/bin/chromedriver'
         PATH = "$VENV_PATH/bin:$CHROME_DRIVER_PATH:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
-        SONARQUBE_TOKEN = 'squ_d5f444cca7aeeb9f3b05ed75a50f8c576a244eea'
+        SONARQUBE_TOKEN = 'squ_d3c79bfc379a7613b30324a2dfd0ee654f5e5cca'
         DEPENDENCY_CHECK_HOME = '/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/OWASP_Dependency-Check/dependency-check'
     }
     
