@@ -4,20 +4,20 @@ pipeline {
     environment {
         VENV_PATH = 'venv'
         FLASK_APP = 'workspace/flask/app.py'
-        CHROME_DRIVER_PATH = '/usr/local/bin/chromedriver'
+        CHROME_DRIVER_PATH = "${WORKSPACE}/workspace/flask/chromedriver"
         PATH = "$VENV_PATH/bin:$CHROME_DRIVER_PATH:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
-        SONARQUBE_TOKEN = 'squ_d3c79bfc379a7613b30324a2dfd0ee654f5e5cca'
+        SONARQUBE_TOKEN = 'squ_d5f444cca7aeeb9f3b05ed75a50f8c576a244eea'
         DEPENDENCY_CHECK_HOME = '/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/OWASP_Dependency-Check/dependency-check'
     }
-    
+
     stages {
         stage('Check Docker') {
             steps {
                 sh 'docker --version'
             }
         }
-        
+
         stage('Clone Repository') {
             steps {
                 dir('workspace') {
@@ -25,7 +25,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Setup Virtual Environment') {
             steps {
                 dir('workspace/flask') {
@@ -33,7 +33,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Activate Virtual Environment and Install Dependencies') {
             steps {
                 dir('workspace/flask') {
@@ -51,8 +51,8 @@ pipeline {
                     sh '${DEPENDENCY_CHECK_HOME}/bin/dependency-check.sh --project "Flask App" --scan . --format "ALL" --out workspace/flask/dependency-check-report || true'
                 }
             }
-        }       
- 
+        }
+
         stage('UI Testing') {
             steps {
                 script {
@@ -65,7 +65,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Integration Testing') {
             steps {
                 dir('workspace/flask') {
@@ -73,7 +73,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Build Docker Image') {
             steps {
                 dir('workspace/flask') {
@@ -81,7 +81,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
@@ -98,7 +98,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Deploy Flask App') {
             steps {
                 script {
@@ -110,7 +110,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Selenium Testing') {
             steps {
                 dir('workspace/flask') {
@@ -119,7 +119,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         failure {
             script {
