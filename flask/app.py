@@ -8,19 +8,20 @@ def is_valid_search_term(search_term):
     if not re.match(r'^[a-zA-Z0-9_]{3,16}$', search_term):
         return False
 
-    # HTML escape to prevent XSS attacks
-    if '<' in search_term or '>' in search_term:
+    # Disallow simple XSS patterns (basic check)
+    if re.search(r'<[^>]*>', search_term):
         return False
 
-    # Check for common SQL injection patterns
-    sql_keywords = [
-        'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'UNION', 'ALTER', '--', ';', '/*', '*/', 'OR', 'AND'
+    # Simplified check for common SQL injection patterns
+    sql_patterns = [
+        r'(--|;|/\*|\*/| OR | AND )'
     ]
-    for keyword in sql_keywords:
-        if keyword.lower() in search_term.lower():
+    for pattern in sql_patterns:
+        if re.search(pattern, search_term, re.IGNORECASE):
             return False
 
     return True
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
