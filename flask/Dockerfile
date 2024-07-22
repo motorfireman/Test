@@ -21,7 +21,8 @@ RUN apt-get update && \
     libgdk-pixbuf2.0-0 \
     libxshmfence1 \
     unzip \
-    curl && \
+    curl \
+    wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -36,6 +37,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Install ChromeDriver in /app/workspace/flask
 RUN CHROME_DRIVER_VERSION=114.0.5735.90 \
+    && mkdir -p /app/workspace/flask \
     && curl -Lo /app/workspace/flask/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
     && unzip /app/workspace/flask/chromedriver.zip -d /app/workspace/flask/ \
     && chmod +x /app/workspace/flask/chromedriver \
