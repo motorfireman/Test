@@ -42,8 +42,6 @@ services:
     image: nginx:latest
     ports:
       - "80:80"  # Map host port 80 to container port 80 for HTTP traffic
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Mount the NGINX configuration file
     depends_on:
       - jenkins
       - sonarqube
