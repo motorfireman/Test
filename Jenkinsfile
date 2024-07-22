@@ -62,6 +62,8 @@ pipeline {
                     chmod +x workspace/flask/chromedriver
                     '''
                     sh 'ls -l workspace/flask/chromedriver' // Verify the chromedriver is downloaded correctly
+                    sh 'ldd workspace/flask/chromedriver' // Check for missing dependencies
+                    sh 'uname -m' // Print the system architecture
                 }
             }
         }
