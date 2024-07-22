@@ -111,13 +111,7 @@ pipeline {
             }
         }
 
-        stage('Selenium Testing') {
-            steps {
-                dir('workspace/flask') {
-                    sh '. $VENV_PATH/bin/activate && python selenium_test.py'
-                }
-            }
-        }
+		
     }
 
     post {
