@@ -29,8 +29,8 @@ pipeline {
 		stage('Set Git Config') {
             steps {
                 dir('workspace') {
-                    sh 'git config user.name "Your Name"'
-                    sh 'git config user.email "your-email@example.com"'
+                    sh 'git config user.name "Ng Wei Shen, Jackson"'
+                    sh 'git config user.email "2202871@sit.singaporetech.edu.sg"'
                 }
             }
         }
