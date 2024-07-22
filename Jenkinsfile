@@ -61,6 +61,7 @@ pipeline {
                     unzip -o chromedriver.zip -d workspace/
                     chmod +x workspace/chromedriver
                     '''
+                    sh 'ls -l workspace/chromedriver' // Add this line to verify the chromedriver is downloaded correctly
                 }
             }
         }
