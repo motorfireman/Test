@@ -20,7 +20,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 dir('workspace') {
-                    git branch: 'main', url: 'http://git-server:3000/repository.git'
+                    git branch: 'main', url: 'https://github.com/motorfireman/Test.git'
                 }
             }
         }
@@ -75,9 +75,6 @@ pipeline {
                     sh '''
                     curl -s -X POST -F "password=password" http://127.0.0.1:5000 | grep "Password does not meet the requirements"
                     '''
-                    
-                    // Stop the Flask app
-                    sh 'pkill -f "flask run"'
                 }
             }
         }
@@ -126,6 +123,14 @@ pipeline {
                     // Run the new Flask app container
                     sh 'docker run -d -p 5000:5000 flask-app'
                     sh 'sleep 10'
+                }
+            }
+        }
+        
+        stage('Selenium Testing') {
+            steps {
+                dir('workspace/flask') {
+                    sh '. $VENV_PATH/bin/activate && python selenium_test.py'
                 }
             }
         }
