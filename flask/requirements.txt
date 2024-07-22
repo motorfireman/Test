@@ -6,5 +6,3 @@ itsdangerous>=2.0
 click>=7.1.2
 pytest==7.0.1
 selenium==4.1.0  # Include Selenium for web automation testing
-html5lib==1.1   # Include html5lib for HTML sanitization
-lxml==4.6.3     # Include lxml for XML and HTML processing
