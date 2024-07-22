@@ -6,7 +6,7 @@ pipeline {
         FLASK_APP = 'workspace/flask/app.py'
         PATH = "$VENV_PATH/bin:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
-        SONARQUBE_TOKEN = 'squ_4a35cbe771c43e0ee93692e6396aa7df09c2062a'
+        SONARQUBE_TOKEN = 'squ_3aa4db1c0709219b0de48eb1cdc1dd1b532b817b'
         DEPENDENCY_CHECK_HOME = '/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/OWASP_Dependency-Check/dependency-check'
     }
 
@@ -36,15 +36,7 @@ pipeline {
         }
 		
 		
-		stage('Push Changes to GitHub') {
-            steps {
-                dir('workspace') {
-                    sh 'git add .'
-                    sh 'git commit -m "Automated commit from Jenkins"'
-                    sh 'git push origin main'
-                }
-            }
-        }
+
 
         stage('Setup Virtual Environment') {
             steps {
