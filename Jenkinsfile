@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        dockerfile {
-            filename 'Dockerfile'
-            dir 'workspace/flask'
-        }
-    }
+    agent any
 
     environment {
         VENV_PATH = 'venv'
