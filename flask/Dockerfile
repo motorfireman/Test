@@ -5,7 +5,6 @@ RUN apt-get update && \
     apt-get install -y \
     libglib2.0-0 \
     libnss3 \
-    libnssutil3 \
     libnspr4 \
     libx11-xcb1 \
     libxcomposite1 \
@@ -20,14 +19,8 @@ RUN apt-get update && \
     libasound2 \
     libpangocairo-1.0-0 \
     libgdk-pixbuf2.0-0 \
-    libxshmfence1 \
-    wget \
-    unzip \
-    libatk-bridge2.0-0 \
-    fonts-liberation \
-    libappindicator3-1 \
-    xdg-utils \
-    && apt-get clean && \
+    libxshmfence1 && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -41,17 +34,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Install ChromeDriver
 RUN CHROME_DRIVER_VERSION=114.0.5735.90 \
-    && wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
+    && curl -Lo /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
     && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
     && chmod +x /usr/local/bin/chromedriver \
     && rm /tmp/chromedriver.zip
-
-# Install Chrome browser
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get update && \
-    apt-get install -y google-chrome-stable && \
-    rm -rf /var/lib/apt/lists/*
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
