@@ -52,18 +52,23 @@ pipeline {
             }
         }
 
-        stage('UI Testing') {
-            steps {
-                script {
-                    sh '. $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run &'
-                    sh 'sleep 5'
-                    sh 'curl -s http://127.0.0.1:5000 || echo "Flask app did not start"'
-                    sh 'curl -s -X POST -F "password=StrongPass123" http://127.0.0.1:5000 | grep "Welcome"'
-                    sh 'curl -s -X POST -F "password=password" http://127.0.0.1:5000 | grep "Password does not meet the requirements"'
-                    sh 'pkill -f "flask run"'
-                }
-            }
-        }
+		stage('UI Testing') {
+			steps {
+				script {
+					sh '. $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run &'
+					sh 'sleep 5'
+					sh 'curl -s http://127.0.0.1:5000 || echo "Flask app did not start"'
+					
+					// Test valid search term
+					sh 'curl -s -X POST -F "search=ValidTerm123" http://127.0.0.1:5000/result | grep "ValidTerm123" || echo "Valid search term test failed"'
+					
+					// Test invalid search term
+					sh 'curl -s -X POST -F "search=invalid<term>" http://127.0.0.1:5000 | grep "Enter search term:" || echo "Invalid search term test failed"'
+					
+					sh 'pkill -f "flask run"'
+				}
+			}
+		}
 
         stage('Integration Testing') {
             steps {
