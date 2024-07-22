@@ -62,19 +62,20 @@ pipeline {
 					// Test valid search term
 					sh '''
 						response=$(curl -s -L -X POST -F "search=ValidTerm123" http://127.0.0.1:5000)
-						echo "$response" | grep "Search Term" && echo "$response" | grep "ValidTerm123" || echo "Valid search term test failed"
+						echo "$response" | grep "Search Result" && echo "$response" | grep "ValidTerm123" || echo "Valid search term test failed"
 					'''
 					
 					// Test invalid search term
 					sh '''
 						response=$(curl -s -X POST -F "search=invalid<term>" http://127.0.0.1:5000)
-						echo "$response" | grep "Enter search term:" && ! echo "$response" | grep "Search Term" || echo "Invalid search term test failed"
+						echo "$response" | grep "Invalid input" && ! echo "$response" | grep "Search Result" || echo "Invalid search term test failed"
 					'''
 					
 					sh 'pkill -f "flask run"'
 				}
 			}
 		}
+
 
         stage('Integration Testing') {
             steps {
