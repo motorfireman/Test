@@ -6,7 +6,7 @@ pipeline {
         FLASK_APP = 'workspace/flask/app.py'
         PATH = "$VENV_PATH/bin:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
-        SONARQUBE_TOKEN = 'squ_3ce9e854e02e4f9a0c688a029a4e1f834425a225'
+        SONARQUBE_TOKEN = 'squ_4a35cbe771c43e0ee93692e6396aa7df09c2062a'
         DEPENDENCY_CHECK_HOME = '/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/OWASP_Dependency-Check/dependency-check'
     }
 
@@ -20,13 +20,12 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 dir('workspace') {
-                    git branch: 'main', url: 'http://localhost:3000/admin123/repository.git'
+                    git branch: 'main', url: 'https://github.com/motorfireman/Test.git'
                 }
             }
         }
-		
-		
-		stage('Set Git Config') {
+
+        stage('Set Git Config') {
             steps {
                 dir('workspace') {
                     sh 'git config user.name "Ng Wei Shen, Jackson"'
@@ -34,8 +33,6 @@ pipeline {
                 }
             }
         }
-		
-		
 
         stage('Verify Git Config') {
             steps {
@@ -45,9 +42,6 @@ pipeline {
                 }
             }
         }
-			
-		
-		
 
         stage('Setup Virtual Environment') {
             steps {
@@ -76,30 +70,29 @@ pipeline {
             }
         }
 
-		stage('UI Testing') {
-			steps {
-				script {
-					sh '. $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run &'
-					sh 'sleep 5'
-					sh 'curl -s http://127.0.0.1:5000 || echo "Flask app did not start"'
-					
-					// Test valid search term
-					sh '''
-						response=$(curl -s -L -X POST -F "search=ValidTerm123" http://127.0.0.1:5000)
-						echo "$response" | grep "Search Result" && echo "$response" | grep "ValidTerm123" || echo "Valid search term test failed"
-					'''
-					
-					// Test invalid search term
-					sh '''
-						response=$(curl -s -X POST -F "search=invalid<term>" http://127.0.0.1:5000)
-						echo "$response" | grep "Invalid input" && ! echo "$response" | grep "Search Result" || echo "Invalid search term test failed"
-					'''
-					
-					sh 'pkill -f "flask run"'
-				}
-			}
-		}
-
+        stage('UI Testing') {
+            steps {
+                script {
+                    sh '. $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run &'
+                    sh 'sleep 5'
+                    sh 'curl -s http://127.0.0.1:5000 || echo "Flask app did not start"'
+                    
+                    // Test valid search term
+                    sh '''
+                        response=$(curl -s -L -X POST -F "search=ValidTerm123" http://127.0.0.1:5000)
+                        echo "$response" | grep "Search Result" && echo "$response" | grep "ValidTerm123" || echo "Valid search term test failed"
+                    '''
+                    
+                    // Test invalid search term
+                    sh '''
+                        response=$(curl -s -X POST -F "search=invalid<term>" http://127.0.0.1:5000)
+                        echo "$response" | grep "Invalid input" && ! echo "$response" | grep "Search Result" || echo "Invalid search term test failed"
+                    '''
+                    
+                    sh 'pkill -f "flask run"'
+                }
+            }
+        }
 
         stage('Integration Testing') {
             steps {

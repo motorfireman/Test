@@ -55,6 +55,12 @@ services:
       - "3000:3000"
     volumes:
       - ./repos:/data
-        
+    networks:
+      - testcicd_default
+
+networks:
+  testcicd_default:
+    driver: bridge
+
 volumes:
   jenkins_home:  # Define a Docker volume to persist Jenkins data
