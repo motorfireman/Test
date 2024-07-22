@@ -20,7 +20,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 dir('workspace') {
-                    git branch: 'main', url: 'http://localhost:3000/repository.git'
+                    git branch: 'main', url: 'https://github.com/motorfireman/Test.git'
                 }
             }
         }
