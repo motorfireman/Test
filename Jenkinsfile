@@ -55,8 +55,7 @@ pipeline {
                 }
             }
         }
-		
-		
+        
         stage('Download Chromedriver') {
             steps {
                 script {
@@ -64,7 +63,6 @@ pipeline {
                     curl -Lo chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
                     unzip chromedriver.zip -d workspace/
                     chmod +x workspace/chromedriver
-                    export PATH=$PATH:workspace/
                     '''
                 }
             }
@@ -143,17 +141,18 @@ pipeline {
                 }
             }
         }
-	
         
         stage('Selenium Testing') {
             steps {
                 dir('workspace/flask') {
-                    sh '. $VENV_PATH/bin/activate && python selenium_test.py'
+                    sh '''
+                    . $VENV_PATH/bin/activate
+                    export PATH=$PATH:workspace/
+                    python selenium_test.py
+                    '''
                 }
             }
         }
-		
-		
     }
     
     post {
