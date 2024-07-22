@@ -41,16 +41,8 @@ pipeline {
                 }
             }
         }
-        
-        stage('Install Missing Libraries') {
-            steps {
-                sh '''
-                apt-get update
-                apt-get install -y libglib2.0-0 libnss3 libnssutil3 libnspr4
-                '''
-            }
-        }
-        
+
+
         stage('Dependency Check') {
             steps {
                 script {
@@ -60,22 +52,8 @@ pipeline {
                     sh '${DEPENDENCY_CHECK_HOME}/bin/dependency-check.sh --project "Flask App" --scan . --format "ALL" --out workspace/flask/dependency-check-report || true'
                 }
             }
-        }
-        
-        stage('Download Chromedriver') {
-            steps {
-                script {
-                    sh '''
-                    curl -Lo chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
-                    unzip -o chromedriver.zip -d workspace/flask
-                    chmod +x workspace/flask/chromedriver
-                    '''
-                    sh 'ls -l workspace/flask/chromedriver' // Verify the chromedriver is downloaded correctly
-                    sh 'ldd workspace/flask/chromedriver' // Check for missing dependencies
-                    sh 'uname -m' // Print the system architecture
-                }
-            }
-        }
+        }       
+ 
         
         stage('UI Testing') {
             steps {

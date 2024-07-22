@@ -1,5 +1,28 @@
-# Flask app Dockerfile
 FROM python:3.8-slim
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    libglib2.0-0 \
+    libnss3 \
+    libnssutil3 \
+    libnspr4 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxi6 \
+    libxtst6 \
+    libxss1 \
+    libxrandr2 \
+    libatk1.0-0 \
+    libgtk-3-0 \
+    libasound2 \
+    libpangocairo-1.0-0 \
+    libgdk-pixbuf2.0-0 \
+    libxshmfence1 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
@@ -9,6 +32,13 @@ COPY . /app
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Install ChromeDriver
+RUN CHROME_DRIVER_VERSION=114.0.5735.90 \
+    && curl -Lo /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
+    && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
+    && chmod +x /usr/local/bin/chromedriver \
+    && rm /tmp/chromedriver.zip
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
