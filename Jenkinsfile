@@ -4,7 +4,6 @@ pipeline {
     environment {
         VENV_PATH = 'venv'
         FLASK_APP = 'workspace/flask/app.py'
-        CHROME_DRIVER_PATH = "${WORKSPACE}/workspace/flask/chromedriver"
         PATH = "$VENV_PATH/bin:$CHROME_DRIVER_PATH:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
         SONARQUBE_TOKEN = 'squ_d5f444cca7aeeb9f3b05ed75a50f8c576a244eea'
