@@ -56,17 +56,19 @@ pipeline {
             }
         }
         
-        stage('Download Chromedriver') {
-            steps {
-                script {
-                    sh '''
-                    curl -Lo chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
-                    unzip chromedriver.zip -d workspace/
-                    chmod +x workspace/chromedriver
-                    '''
-                }
-            }
-        }
+	
+		stage('Download Chromedriver') {
+			steps {
+				script {
+					sh '''
+					curl -Lo chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+					unzip -o chromedriver.zip -d workspace/
+					chmod +x workspace/chromedriver
+					'''
+				}
+			}
+		}
+
         
         stage('UI Testing') {
             steps {
