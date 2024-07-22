@@ -4,8 +4,8 @@ pipeline {
     environment {
         VENV_PATH = 'venv'
         FLASK_APP = 'workspace/flask/app.py'
-        CHROME_DRIVER_PATH = 'workspace/chromedriver'
-        PATH = "$VENV_PATH/bin:$PATH:$CHROME_DRIVER_PATH"
+        CHROME_DRIVER_PATH = "${WORKSPACE}/workspace/chromedriver"
+        PATH = "$VENV_PATH/bin:$CHROME_DRIVER_PATH:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
         SONARQUBE_TOKEN = 'squ_d5f444cca7aeeb9f3b05ed75a50f8c576a244eea'
         DEPENDENCY_CHECK_HOME = '/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/OWASP_Dependency-Check/dependency-check'
@@ -61,18 +61,18 @@ pipeline {
                     unzip -o chromedriver.zip -d workspace/
                     chmod +x workspace/chromedriver
                     '''
-                    sh 'ls -l workspace/chromedriver' // Add this line to verify the chromedriver is downloaded correctly
+                    sh 'ls -l workspace/chromedriver' // Verify the chromedriver is downloaded correctly
                 }
             }
         }
         
-		stage('Verify Environment Variables') {
-			steps {
-				sh 'printenv'
-			}
-		}
-
-
+        stage('Verify Environment Variables') {
+            steps {
+                sh 'printenv'
+                sh 'echo $PATH'
+            }
+        }
+        
         stage('UI Testing') {
             steps {
                 script {
@@ -89,6 +89,7 @@ pipeline {
         stage('Integration Testing') {
             steps {
                 dir('workspace/flask') {
+                    sh 'printenv' // Debugging step to verify all environment variables
                     sh '. $VENV_PATH/bin/activate && pytest --junitxml=integration-test-results.xml'
                 }
             }
