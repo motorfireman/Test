@@ -42,6 +42,15 @@ pipeline {
             }
         }
         
+        stage('Install Missing Libraries') {
+            steps {
+                sh '''
+                apt-get update
+                apt-get install -y libglib2.0-0 libnss3 libnssutil3 libnspr4
+                '''
+            }
+        }
+        
         stage('Dependency Check') {
             steps {
                 script {
