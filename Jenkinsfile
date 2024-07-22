@@ -4,7 +4,8 @@ pipeline {
     environment {
         VENV_PATH = 'venv'
         FLASK_APP = 'workspace/flask/app.py'
-        PATH = "$VENV_PATH/bin:$PATH:workspace"
+        CHROME_DRIVER_PATH = 'workspace/chromedriver'
+        PATH = "$VENV_PATH/bin:$PATH:$CHROME_DRIVER_PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
         SONARQUBE_TOKEN = 'squ_d5f444cca7aeeb9f3b05ed75a50f8c576a244eea'
         DEPENDENCY_CHECK_HOME = '/var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/OWASP_Dependency-Check/dependency-check'
@@ -59,7 +60,6 @@ pipeline {
                     curl -Lo chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
                     unzip -o chromedriver.zip -d workspace/
                     chmod +x workspace/chromedriver
-                    export PATH=$PATH:workspace/
                     '''
                 }
             }
