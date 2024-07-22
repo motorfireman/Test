@@ -66,6 +66,13 @@ pipeline {
             }
         }
         
+		stage('Verify Environment Variables') {
+			steps {
+				sh 'printenv'
+			}
+		}
+
+
         stage('UI Testing') {
             steps {
                 script {

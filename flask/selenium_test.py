@@ -2,9 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.keys import Keys
 import time
+import os
 
 # Path to chromedriver
-chrome_driver_path = 'workspace/chromedriver'
+chrome_driver_path = os.path.abspath('workspace/chromedriver')
 
 # Initialize WebDriver with Service object
 service = ChromeService(executable_path=chrome_driver_path)
