@@ -37,6 +37,17 @@ pipeline {
 		
 		
 
+        stage('Verify Git Config') {
+            steps {
+                dir('workspace') {
+                    sh 'git config user.name'
+                    sh 'git config user.email'
+                }
+            }
+        }
+			
+		
+		
 
         stage('Setup Virtual Environment') {
             steps {
