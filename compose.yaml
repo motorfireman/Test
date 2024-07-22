@@ -46,10 +46,10 @@ services:
       - jenkins
       - sonarqube
 
- git-server:
+  git-server:
     build:
-      dockerfile: gitserver.Dockerfile
       context: .
+      dockerfile: gitserver.Dockerfile
     restart: always
     ports:
       - "3000:3000"
