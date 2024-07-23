@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
 
-  #question 2 setup nginx and test docker is working
   nginx:
     image: nginx:latest
     ports:
@@ -10,7 +9,6 @@ services:
     networks:
       - testcicd_network
 
-  #question 3 setup local github
   git-server:
     image: gitea/gitea:latest
     restart: always
@@ -21,26 +19,13 @@ services:
     networks:
       - testcicd_network
 
-  #question 3 is access the local github url and set full name to ur name and email to school email
-  # in this case visit localhost 3000:3000
-
-
-  #question 4 create the python website 
-  
-  #cd to repository then use the command below to push
-  #git add .
-  #git commit -m "Update repository with Jenkinsfile and other changes"
-  #git push origin main
-
-
-  #question 5 create jenkins and integrate with cicd process
   jenkins:
     build:
       context: ./jenkins
       dockerfile: Dockerfile
       args:
-        GIT_USER_NAME: "NG WEI SHEN, JACKSON"
-        GIT_USER_EMAIL: "2202871@sit.singaporetech.edu.sg"
+        GIT_USER_NAME: "Nicholas Phoon Kai Jin"
+        GIT_USER_EMAIL: "2200780@sit.singaporetech.edu.sg"
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -52,7 +37,6 @@ services:
     networks:
       - testcicd_network
 
-  #question 6 create sonar with db
   sonarqube:
     image: sonarqube:lts
     ports:
